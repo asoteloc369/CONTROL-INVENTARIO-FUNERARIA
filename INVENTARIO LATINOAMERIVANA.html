@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema de Control de Insumos Funerarios</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+  <!-- FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Animate.css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- qrcode.js -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+
+  <style>
+    body { font-family: 'Roboto', sans-serif; }
+    .dark-mode { background-color: #121212; color: #ffffff; }
+  </style>
+</head>
+<body class="bg-gray-100">
+
+<!-- Header -->
+<header class="fixed w-full flex justify-between items-center bg-black text-white py-3 px-6 z-10">
+  <img src="logo-latinoamericana.png" alt="Logo" class="h-12">
+  <h1 class="text-xl font-bold">Sistema de Control de Insumos Funerarios</h1>
+  <button id="toggle-dark-mode" class="text-xl"><i class="fa-solid fa-moon"></i></button>
+</header>
+
+<div class="container mx-auto pt-24 px-4">
+  <!-- Tabs -->
+  <div class="mb-4">
+    <button class="tab-btn bg-black text-white px-4 py-2 rounded" data-tab="inventario">Inventario</button>
+    <button class="tab-btn bg-black text-white px-4 py-2 rounded" data-tab="graficas">Gráficas</button>
+    <button class="tab-btn bg-black text-white px-4 py-2 rounded" data-tab="historial">Historial</button>
+  </div>
+
+  <!-- Vista Inventario -->
+  <div id="inventario" class="tab-content">
+    <form id="form-insumo" class="bg-white p-6 rounded shadow-lg">
+      <input type="text" placeholder="Nombre" required class="w-full mb-2 p-2 border">
+      <select class="w-full mb-2 p-2 border" required>
+        <option value="">Categoría</option>
+        <option>Flores</option>
+        <option>Urnas</option>
+        <option>Velas</option>
+      </select>
+      <input type="number" placeholder="Cantidad" required class="w-full mb-2 p-2 border">
+      <input type="text" placeholder="Proveedor" required class="w-full mb-2 p-2 border">
+      <input type="email" placeholder="Correo del proveedor" required class="w-full mb-2 p-2 border">
+      <input type="file" accept="image/png, image/jpeg" class="w-full mb-2 p-2 border">
+      <input type="date" required class="w-full mb-2 p-2 border">
+      <button class="w-full bg-black text-white py-2 rounded">Agregar Insumo</button>
+    </form>
+    <table class="w-full mt-4 bg-white shadow-lg rounded overflow-hidden">
+      <thead class="bg-gray-200">
+        <tr><th>Imagen</th><th>Nombre</th><th>Categoría</th><th>Cantidad</th><th>Código QR</th><th>Acciones</th></tr>
+      </thead>
+      <tbody>
+        <tr><td colspan="6" class="text-center py-4">Sin registros</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Gráficas -->
+  <div id="graficas" class="tab-content hidden">
+    <canvas id="grafico" class="bg-white p-4 rounded shadow-lg"></canvas>
+    <button id="actualizarGrafica" class="mt-4 bg-black text-white py-2 px-4 rounded">Actualizar Gráfica</button>
+  </div>
+
+  <!-- Historial -->
+  <div id="historial" class="tab-content hidden">
+    <table class="w-full bg-white shadow-lg rounded overflow-hidden">
+      <thead class="bg-gray-200">
+        <tr><th>Fecha</th><th>Acción</th><th>Descripción</th></tr>
+      </thead>
+      <tbody>
+        <tr><td colspan="3" class="text-center py-4">Sin acciones registradas</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="mt-10 bg-black text-white text-center py-4">
+  Latinoamericana Recinto Funeral © 2024. Desarrollado por ChatGPT.
+</footer>
+
+<script>
+// Modo oscuro
+const toggleDarkMode = document.getElementById('toggle-dark-mode');
+toggleDarkMode.addEventListener('click', () => document.body.classList.toggle('dark-mode'));
+
+// Tabs
+const tabs = document.querySelectorAll('.tab-btn');
+const contents = document.querySelectorAll('.tab-content');
+tabs.forEach(tab => tab.addEventListener('click', () => {
+  contents.forEach(c => c.classList.add('hidden'));
+  document.getElementById(tab.dataset.tab).classList.remove('hidden');
+}));
+
+// Simular gráfica con Chart.js
+const ctx = document.getElementById('grafico').getContext('2d');
+new Chart(ctx, {
+  type: 'bar',
+  data: { labels: ['Flores', 'Urnas', 'Velas'], datasets: [{ label: 'Inventario', data: [10, 20, 5] }] }
+});
+
+</script>
+</body>
+</html>
